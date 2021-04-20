@@ -1,0 +1,18 @@
+name: ContainerProtect
+version: 1.0
+main: ro.ggez.containerprotect.PluginMain
+website: ggez.ro
+api-version: 1.16
+commands:
+  cinfo:
+    description: See protection info for a container
+    usage: /<command>
+    permission: containerprotect.info
+  cmodify:
+    description: Allow someone to access a container
+    usage: /<command> <target>
+    permission: containerprotect.modify
+  cremove:
+    description: Remove private protection from a container
+    usage: /<command>
+    permission: containerprotect.remove

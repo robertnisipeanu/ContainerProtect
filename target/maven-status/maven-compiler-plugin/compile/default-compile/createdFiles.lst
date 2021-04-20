@@ -1,0 +1,16 @@
+ro\ggez\containerprotect\checkers\DoubleChestChecker.class
+ro\ggez\containerprotect\listeners\ProtectionPreventInteractListener.class
+ro\ggez\containerprotect\listeners\ProtectionAddListener.class
+ro\ggez\containerprotect\data\ContainerProtectDataType.class
+ro\ggez\containerprotect\checkers\DoubleChestChecker$1.class
+ro\ggez\containerprotect\commands\ContainerRemove.class
+ro\ggez\containerprotect\commands\ContainerInfo.class
+ro\ggez\containerprotect\listeners\ProtectionPreventDestroyListener.class
+ro\ggez\containerprotect\protection\TileProtection.class
+ro\ggez\containerprotect\PluginMain.class
+ro\ggez\containerprotect\protection\EntityProtection.class
+ro\ggez\containerprotect\data\ContainerProtectData.class
+ro\ggez\containerprotect\commands\ContainerModify.class
+ro\ggez\containerprotect\commands\ContainerPrivate.class
+ro\ggez\containerprotect\protection\Protection.class
+ro\ggez\containerprotect\data\ProtectionType.class
