@@ -8,6 +8,10 @@ commands:
     description: See protection info for a container
     usage: /<command>
     permission: containerprotect.info
+  cprivate:
+    description: Register a private container
+    usage: /<command>
+    permission: containerprotect.private
   cmodify:
     description: Allow someone to access a container
     usage: /<command> <target>

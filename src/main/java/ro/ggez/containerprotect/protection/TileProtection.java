@@ -1,6 +1,7 @@
 package ro.ggez.containerprotect.protection;
 
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import ro.ggez.containerprotect.PluginMain;
@@ -22,7 +23,14 @@ public class TileProtection extends Protection {
 
     @Override
     public boolean canBeProtected() {
-        return this.tileState != null;
+        if (this.tileState == null) return false;
+
+        Bukkit.broadcastMessage(
+                "Class: " + this.tileState.getClass().getName()
+                + "; Superclass: " + this.tileState.getClass().getSuperclass().getName()
+        );
+
+        return true;
     }
 
     @Override
@@ -59,6 +67,7 @@ public class TileProtection extends Protection {
     /**
      * Remove protection.
      * Allows to remove protection for this block/entity without deleting it for the adjacent one
+     *
      * @param deleteAdjacentToo
      */
     public void remove(boolean deleteAdjacentToo) {
