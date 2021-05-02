@@ -2,9 +2,7 @@ package com.nisipeanu.containerprotect;
 
 import com.nisipeanu.containerprotect.commands.*;
 import com.nisipeanu.containerprotect.listeners.ProtectionPreventInteractListener;
-import com.robertnisipeanu.containerprotect.commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import ro.ggez.containerprotect.commands.*;
 import com.nisipeanu.containerprotect.config.ConfigGenerator;
 import com.nisipeanu.containerprotect.listeners.ProtectionAddListener;
 import com.nisipeanu.containerprotect.listeners.ProtectionPreventDestroyListener;
