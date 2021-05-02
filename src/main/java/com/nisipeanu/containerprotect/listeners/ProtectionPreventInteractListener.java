@@ -82,19 +82,29 @@ public class ProtectionPreventInteractListener implements Listener {
             return;
         }
 
+        // If none of them are protected, ignore
+        if (
+                sourceProtection != null && sourceProtection.getProtectionLevel() == ProtectionType.NONE
+                && destinationProtection != null && destinationProtection.getProtectionLevel() == ProtectionType.NONE
+        ) {
+            return;
+        }
+
         // If only one of them is protected and we have no information about who is the owner
         // of the other one, cancel the event
         if (
                 (sourceProtection == null || destinationProtection == null)
                         && (
-                        sourceProtection.getProtectionLevel() == ProtectionType.PRIVATE
-                                || destinationProtection.getProtectionLevel() == ProtectionType.PRIVATE
+                        (sourceProtection != null && sourceProtection.getProtectionLevel() == ProtectionType.PRIVATE)
+                                || (destinationProtection != null
+                                && destinationProtection.getProtectionLevel() == ProtectionType.PRIVATE)
                 )
-                        && sourceProtection.getProtectionLevel() != destinationProtection.getProtectionLevel()
         ) {
             e.setCancelled(true);
             return;
         }
+
+
 
         // If they do not have the same owner, cancel the event
         if (!Objects.equals(sourceProtection.getOwner(), destinationProtection.getOwner())) {
