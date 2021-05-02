@@ -1,4 +1,4 @@
-package ro.ggez.containerprotect.checkers;
+package com.nisipeanu.containerprotect.checkers;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;

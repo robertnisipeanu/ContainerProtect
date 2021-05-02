@@ -1,4 +1,4 @@
-package ro.ggez.containerprotect.data;
+package com.nisipeanu.containerprotect.data;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

@@ -1,8 +1,8 @@
-package ro.ggez.containerprotect.protection;
+package com.nisipeanu.containerprotect.protection;
 
+import com.nisipeanu.containerprotect.PluginMain;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.entity.Entity;
-import ro.ggez.containerprotect.PluginMain;
 
 public class EntityProtection extends Protection {
 

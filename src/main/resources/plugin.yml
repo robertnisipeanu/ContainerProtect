@@ -1,6 +1,6 @@
 name: ContainerProtect
 version: 1.0
-main: ro.ggez.containerprotect.PluginMain
+main: com.nisipeanu.containerprotect.PluginMain
 website: ggez.ro
 api-version: 1.16
 commands:
@@ -20,3 +20,7 @@ commands:
     description: Remove private protection from a container
     usage: /<command>
     permission: containerprotect.remove
+  creload:
+    description: Reload the config
+    usage: /<command>
+    permission: containerprotect.reload

@@ -1,5 +1,6 @@
-package ro.ggez.containerprotect.listeners;
+package com.nisipeanu.containerprotect.listeners;
 
+import com.nisipeanu.containerprotect.protection.TileProtection;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
@@ -10,11 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.data.ProtectionType;
-import ro.ggez.containerprotect.protection.EntityProtection;
-import ro.ggez.containerprotect.protection.Protection;
-import ro.ggez.containerprotect.protection.TileProtection;
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.data.ProtectionType;
+import com.nisipeanu.containerprotect.protection.EntityProtection;
+import com.nisipeanu.containerprotect.protection.Protection;
 
 import java.util.Objects;
 

@@ -1,5 +1,8 @@
-package ro.ggez.containerprotect.commands;
+package com.nisipeanu.containerprotect.commands;
 
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.data.ProtectionType;
+import com.nisipeanu.containerprotect.protection.TileProtection;
 import org.bukkit.ChatColor;
 import org.bukkit.block.TileState;
 import org.bukkit.command.Command;
@@ -11,9 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.data.ProtectionType;
-import ro.ggez.containerprotect.protection.TileProtection;
 
 import java.util.ArrayList;
 

@@ -1,14 +1,13 @@
-package ro.ggez.containerprotect;
+package com.nisipeanu.containerprotect;
 
+import com.nisipeanu.containerprotect.commands.*;
+import com.nisipeanu.containerprotect.listeners.ProtectionPreventInteractListener;
+import com.robertnisipeanu.containerprotect.commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import ro.ggez.containerprotect.commands.ContainerInfo;
-import ro.ggez.containerprotect.commands.ContainerModify;
-import ro.ggez.containerprotect.commands.ContainerPrivate;
-import ro.ggez.containerprotect.commands.ContainerRemove;
-import ro.ggez.containerprotect.config.ConfigGenerator;
-import ro.ggez.containerprotect.listeners.ProtectionAddListener;
-import ro.ggez.containerprotect.listeners.ProtectionPreventDestroyListener;
-import ro.ggez.containerprotect.listeners.ProtectionPreventInteractListener;
+import ro.ggez.containerprotect.commands.*;
+import com.nisipeanu.containerprotect.config.ConfigGenerator;
+import com.nisipeanu.containerprotect.listeners.ProtectionAddListener;
+import com.nisipeanu.containerprotect.listeners.ProtectionPreventDestroyListener;
 
 public class PluginMain extends JavaPlugin {
 
@@ -34,6 +33,9 @@ public class PluginMain extends JavaPlugin {
         var containerRemove = new ContainerRemove(this);
         getServer().getPluginManager().registerEvents(containerRemove, this);
         getCommand("cremove").setExecutor(containerRemove);
+
+        var containerReload = new ContainerReload(this);
+        getCommand("creload").setExecutor(containerReload);
 
         var configGenerator = new ConfigGenerator(this);
         configGenerator.generate();

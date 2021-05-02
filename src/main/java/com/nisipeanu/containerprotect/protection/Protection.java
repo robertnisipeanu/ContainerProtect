@@ -1,14 +1,14 @@
-package ro.ggez.containerprotect.protection;
+package com.nisipeanu.containerprotect.protection;
 
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.data.ProtectionType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.data.ContainerProtectData;
-import ro.ggez.containerprotect.data.ContainerProtectDataType;
-import ro.ggez.containerprotect.data.ProtectionType;
+import com.nisipeanu.containerprotect.data.ContainerProtectData;
+import com.nisipeanu.containerprotect.data.ContainerProtectDataType;
 
 import java.util.ArrayList;
 

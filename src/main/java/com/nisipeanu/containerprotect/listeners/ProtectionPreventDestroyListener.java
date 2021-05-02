@@ -1,5 +1,9 @@
-package ro.ggez.containerprotect.listeners;
+package com.nisipeanu.containerprotect.listeners;
 
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.checkers.DoubleChestChecker;
+import com.nisipeanu.containerprotect.data.ProtectionType;
+import com.nisipeanu.containerprotect.protection.TileProtection;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,10 +16,6 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.world.StructureGrowEvent;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.checkers.DoubleChestChecker;
-import ro.ggez.containerprotect.data.ProtectionType;
-import ro.ggez.containerprotect.protection.TileProtection;
 
 import java.util.List;
 import java.util.Objects;

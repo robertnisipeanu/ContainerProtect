@@ -1,9 +1,9 @@
-package ro.ggez.containerprotect.config;
+package com.nisipeanu.containerprotect.config;
 
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.reflection.TileReflection;
 import org.bukkit.block.TileState;
 import org.bukkit.configuration.file.FileConfiguration;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.reflection.TileReflection;
 
 import java.util.Locale;
 import java.util.Map;

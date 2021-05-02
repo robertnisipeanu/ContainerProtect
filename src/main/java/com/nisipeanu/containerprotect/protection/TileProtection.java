@@ -1,11 +1,11 @@
-package ro.ggez.containerprotect.protection;
+package com.nisipeanu.containerprotect.protection;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
-import ro.ggez.containerprotect.PluginMain;
-import ro.ggez.containerprotect.checkers.DoubleChestChecker;
-import ro.ggez.containerprotect.reflection.TileReflection;
+import com.nisipeanu.containerprotect.PluginMain;
+import com.nisipeanu.containerprotect.checkers.DoubleChestChecker;
+import com.nisipeanu.containerprotect.reflection.TileReflection;
 
 import java.util.Locale;
 

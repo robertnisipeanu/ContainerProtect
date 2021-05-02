@@ -1,4 +1,4 @@
-package ro.ggez.containerprotect.data;
+package com.nisipeanu.containerprotect.data;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;

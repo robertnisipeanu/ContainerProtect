@@ -1,4 +1,4 @@
-package ro.ggez.containerprotect.reflection;
+package com.nisipeanu.containerprotect.reflection;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
