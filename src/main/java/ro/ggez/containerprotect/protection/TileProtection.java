@@ -1,11 +1,13 @@
 package ro.ggez.containerprotect.protection;
 
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import ro.ggez.containerprotect.PluginMain;
 import ro.ggez.containerprotect.checkers.DoubleChestChecker;
+import ro.ggez.containerprotect.reflection.TileReflection;
+
+import java.util.Locale;
 
 public class TileProtection extends Protection {
 
@@ -25,12 +27,10 @@ public class TileProtection extends Protection {
     public boolean canBeProtected() {
         if (this.tileState == null) return false;
 
-        Bukkit.broadcastMessage(
-                "Class: " + this.tileState.getClass().getName()
-                + "; Superclass: " + this.tileState.getClass().getSuperclass().getName()
-        );
+        var tileClass = TileReflection.getClassFromTileState(this.tileState);
+        if (tileClass == null) return false;
 
-        return true;
+        return plugin.getConfig().getBoolean("blocks." + tileClass.getSimpleName().toLowerCase(Locale.ROOT));
     }
 
     @Override
@@ -95,6 +95,6 @@ public class TileProtection extends Protection {
 
         if (adjacentBlock == null) return null;
 
-        return new TileProtection(this.plugin, (TileState) adjacentBlock.getState());
+        return new TileProtection(this.plugin, adjacentBlock.getState());
     }
 }

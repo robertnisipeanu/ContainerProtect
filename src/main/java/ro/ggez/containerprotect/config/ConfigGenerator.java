@@ -1,13 +1,10 @@
 package ro.ggez.containerprotect.config;
 
-import org.bukkit.Bukkit;
-import org.bukkit.block.Chest;
 import org.bukkit.block.TileState;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.reflections.Reflections;
 import ro.ggez.containerprotect.PluginMain;
+import ro.ggez.containerprotect.reflection.TileReflection;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -19,14 +16,13 @@ public class ConfigGenerator {
 
     public ConfigGenerator(PluginMain plugin) {
         this.plugin = plugin;
-        this.config = plugin.getConfig();
+        this.config =  plugin.getConfig();
     }
 
     public void generate() {
 
         // Get all blocks extending TileState
-        Reflections reflections = new Reflections("org.bukkit.block");
-        Set<Class<? extends TileState>> tileStates = this.filter(reflections.getSubTypesOf(TileState.class));
+        Set<Class<? extends TileState>> tileStates = TileReflection.getTileClasses();
 
         Map<String, Boolean> protectedBlocks = tileStates.stream().collect(Collectors.toMap(
                 (entry) -> entry.getSimpleName().toLowerCase(Locale.ROOT),
