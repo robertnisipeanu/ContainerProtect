@@ -16,7 +16,7 @@ public class ConfigGenerator {
 
     public ConfigGenerator(PluginMain plugin) {
         this.plugin = plugin;
-        this.config =  plugin.getConfig();
+        this.config = plugin.getConfig();
     }
 
     public void generate() {
@@ -38,6 +38,7 @@ public class ConfigGenerator {
 
     /**
      * Filter a list to only contain classes which meets the condition of isTopExtender
+     *
      * @param classList
      * @return a list of Classes that meets the requirement
      */
@@ -49,8 +50,9 @@ public class ConfigGenerator {
 
     /**
      * Checks if it no other classes from classList extends classToCheck
+     *
      * @param classToCheck Class to check if it's the top extender
-     * @param classList List of Classes to check against
+     * @param classList    List of Classes to check against
      * @return True if no class extends classToCheck, false otherwise
      */
     private boolean isTopExtender(Class<? extends TileState> classToCheck, Set<Class<? extends TileState>> classList) {

@@ -1,6 +1,5 @@
 package ro.ggez.containerprotect.reflection;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.TileState;
 
 import java.util.Set;
@@ -27,6 +26,7 @@ public class TileReflection {
 
     /**
      * Get a Tile Class by name
+     *
      * @param name name of class
      * @return A class that extends TileState if found, null otherwise
      */

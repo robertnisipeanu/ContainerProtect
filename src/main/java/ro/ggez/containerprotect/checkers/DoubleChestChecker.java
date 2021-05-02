@@ -17,26 +17,26 @@ public class DoubleChestChecker {
 
         // Check if block can be casted to Chest
         Chest chestData;
-        try{
+        try {
             chestData = (Chest) block.getBlockData();
-        } catch(ClassCastException ex) {
+        } catch (ClassCastException ex) {
             return null;
         }
 
         // Get the block face for neighboring chest
         var blockFace = getNeighboringChestBlockFace(chestData);
-        if(blockFace == null) return null;
+        if (blockFace == null) return null;
 
         Block neighboringBlock = block.getRelative(blockFace);
 
-        if(block.getType() != neighboringBlock.getType()) return null;
+        if (block.getType() != neighboringBlock.getType()) return null;
 
         return neighboringBlock;
 
     }
 
     public static BlockFace getNeighboringChestBlockFace(Chest chest) {
-        if(chest.getType() == Chest.Type.SINGLE)
+        if (chest.getType() == Chest.Type.SINGLE)
             return null;
 
         BlockFace face = chest.getFacing();

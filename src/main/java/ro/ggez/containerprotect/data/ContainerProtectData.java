@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public class ContainerProtectData {
 
-    public ContainerProtectData() {}
+    public ContainerProtectData() {
+    }
 
     public ContainerProtectData(UUID owner) {
         this.owner = Bukkit.getOfflinePlayer(owner);

@@ -33,7 +33,7 @@ public class ContainerPrivate implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
 
-        if(activeCmd.contains(player)) {
+        if (activeCmd.contains(player)) {
             activeCmd.remove(player);
             player.sendMessage("Exited cprivate mode!");
             return true;

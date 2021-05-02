@@ -1,6 +1,5 @@
 package ro.ggez.containerprotect.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
@@ -11,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import ro.ggez.containerprotect.PluginMain;
 import ro.ggez.containerprotect.data.ProtectionType;
 import ro.ggez.containerprotect.protection.EntityProtection;
@@ -88,11 +86,11 @@ public class ProtectionPreventInteractListener implements Listener {
         // of the other one, cancel the event
         if (
                 (sourceProtection == null || destinationProtection == null)
-                && (
+                        && (
                         sourceProtection.getProtectionLevel() == ProtectionType.PRIVATE
-                        || destinationProtection.getProtectionLevel() == ProtectionType.PRIVATE
+                                || destinationProtection.getProtectionLevel() == ProtectionType.PRIVATE
                 )
-                && sourceProtection.getProtectionLevel() != destinationProtection.getProtectionLevel()
+                        && sourceProtection.getProtectionLevel() != destinationProtection.getProtectionLevel()
         ) {
             e.setCancelled(true);
             return;

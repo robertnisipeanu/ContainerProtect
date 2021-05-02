@@ -34,7 +34,8 @@ public abstract class Protection {
     protected ContainerProtectData getData() {
         if (this.protectionData != null) return this.protectionData;
 
-        if (!(this.dataContainer.has(key, new ContainerProtectDataType()))) return this.protectionData = new ContainerProtectData();
+        if (!(this.dataContainer.has(key, new ContainerProtectDataType())))
+            return this.protectionData = new ContainerProtectData();
 
         return this.protectionData = this.dataContainer.get(key, new ContainerProtectDataType());
     }
@@ -48,6 +49,7 @@ public abstract class Protection {
 
     /**
      * Get the protection level (ProtectionType) associated with this protection
+     *
      * @return ProtectionType for this protection
      */
     public @NotNull ProtectionType getProtectionLevel() {
@@ -56,6 +58,7 @@ public abstract class Protection {
 
     /**
      * Set protection level for this block/entity
+     *
      * @param type ProtectionType to set
      */
     public void setProtectionLevel(@NotNull ProtectionType type) {
@@ -64,6 +67,7 @@ public abstract class Protection {
 
     /**
      * Get Owner for this protection
+     *
      * @return OfflinePlayer that owns this protection or null if there is no data for this protection
      */
     public @Nullable OfflinePlayer getOwner() {
@@ -72,6 +76,7 @@ public abstract class Protection {
 
     /**
      * Set Owner for this protection
+     *
      * @param player OfflinePlayer to be set as Owner
      */
     public void setOwner(@NotNull OfflinePlayer player) {
@@ -80,6 +85,7 @@ public abstract class Protection {
 
     /**
      * Get a list of players that are allowed to use this protection
+     *
      * @return ArrayList of OfflinePlayer that are allowed
      */
     public @NotNull ArrayList<OfflinePlayer> getAllowedList() {
@@ -88,6 +94,7 @@ public abstract class Protection {
 
     /**
      * Set allowed list of players that are allowed to use this protection
+     *
      * @param allowed ArrayList of OfflinePlayer to be allowed
      */
     public void setAllowedList(@NotNull ArrayList<OfflinePlayer> allowed) {
@@ -96,6 +103,7 @@ public abstract class Protection {
 
     /**
      * Add a player to the allowed list
+     *
      * @param player OfflinePlayer to be allowed
      */
     public void addAllowedList(@NotNull OfflinePlayer player) {
@@ -122,6 +130,7 @@ public abstract class Protection {
 
     /**
      * Get display name for block/entity (capitalized)
+     *
      * @return Display name
      */
     public abstract String getDisplayName();

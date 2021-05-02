@@ -33,7 +33,7 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
         // later. This way we know where to stop reading the list and other data is coming.
         bb.putInt(chestProtectData.allowedList.size());
 
-        for(var allowed : chestProtectData.allowedList) {
+        for (var allowed : chestProtectData.allowedList) {
             bb.putLong(allowed.getUniqueId().getMostSignificantBits());
             bb.putLong(allowed.getUniqueId().getLeastSignificantBits());
         }
@@ -57,8 +57,8 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
 
         int allowedListSize = bb.getInt();
 
-        while(bb.remaining() > 0) {
-            if(bb.remaining() < 16) break;
+        while (bb.remaining() > 0) {
+            if (bb.remaining() < 16) break;
 
             mostBits = bb.getLong();
             leastBits = bb.getLong();

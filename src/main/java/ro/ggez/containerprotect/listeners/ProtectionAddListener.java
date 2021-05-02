@@ -1,32 +1,20 @@
 package ro.ggez.containerprotect.listeners;
 
-import com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent;
-import io.papermc.paper.event.block.BlockPreDispenseEvent;
-import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityPlaceEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import ro.ggez.containerprotect.PluginMain;
 import ro.ggez.containerprotect.checkers.DoubleChestChecker;
-import ro.ggez.containerprotect.data.ContainerProtectData;
 import ro.ggez.containerprotect.data.ProtectionType;
 import ro.ggez.containerprotect.protection.EntityProtection;
 import ro.ggez.containerprotect.protection.TileProtection;
-
-import java.util.Objects;
 
 public class ProtectionAddListener implements Listener {
 
@@ -70,8 +58,7 @@ public class ProtectionAddListener implements Listener {
             protection.setOwner(neighborProtection.getOwner());
             protection.setAllowedList(neighborProtection.getAllowedList());
             protection.setProtectionLevel(neighborProtection.getProtectionLevel());
-        }
-        else {
+        } else {
             protection.setOwner(e.getPlayer());
             protection.setProtectionLevel(ProtectionType.PRIVATE);
         }
