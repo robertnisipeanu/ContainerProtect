@@ -74,15 +74,6 @@ public class ProtectionAddListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onBlockDispense(BlockDispenseEvent e) {
-        Bukkit.broadcastMessage("BlockDispenseEvent");
-        if (!(e.getBlock().getState() instanceof TileState)) return;
-
-        Bukkit.broadcastMessage("Block location: " + e.getBlock().getLocation().toString());
-
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityPlace(EntityPlaceEvent e) {
 
         if (e.getPlayer() == null) return;
