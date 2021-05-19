@@ -23,4 +23,26 @@ commands:
   creload:
     description: Reload the config
     usage: /<command>
-    permission: containerprotect.reload
+    permission: containerprotect.admin.reload
+permissions:
+  containerprotect.info:
+    description: Can see information about a protection
+    default: true
+  containerprotect.private:
+    description: Can register a private container
+    default: true
+  containerprotect.modify:
+    description: Can add another player to own protection
+    default: true
+  containerprotect.remove:
+    description: Can remove it's own private container
+    default: true
+  containerprotect.admin.reload:
+    description: Can reload the config
+    default: op
+  containerprotect.admin.remove:
+    description: Can remove someone else's protection
+    default: op
+  containerprotect.admin.interact:
+    description: Can access someone else's protection
+    default: op
