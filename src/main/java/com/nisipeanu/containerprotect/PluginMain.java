@@ -16,19 +16,21 @@ public class PluginMain extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ProtectionPreventDestroyListener(this), this);
         getServer().getPluginManager().registerEvents(new ProtectionPreventInteractListener(this), this);
 
-        var containerInfo = new ContainerInfo(this);
+        var commandActionCache = new CommandActionCache();
+
+        var containerInfo = new ContainerInfo(this, commandActionCache);
         getServer().getPluginManager().registerEvents(containerInfo, this);
         getCommand("cinfo").setExecutor(containerInfo);
 
-        var containerPrivate = new ContainerPrivate(this);
+        var containerPrivate = new ContainerPrivate(this, commandActionCache);
         getServer().getPluginManager().registerEvents(containerPrivate, this);
         getCommand("cprivate").setExecutor(containerPrivate);
 
-        var containerModify = new ContainerModify(this);
+        var containerModify = new ContainerModify(this, commandActionCache);
         getServer().getPluginManager().registerEvents(containerModify, this);
         getCommand("cmodify").setExecutor(containerModify);
 
-        var containerRemove = new ContainerRemove(this);
+        var containerRemove = new ContainerRemove(this, commandActionCache);
         getServer().getPluginManager().registerEvents(containerRemove, this);
         getCommand("cremove").setExecutor(containerRemove);
 

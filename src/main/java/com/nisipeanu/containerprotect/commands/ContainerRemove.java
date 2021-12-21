@@ -21,12 +21,12 @@ import java.util.ArrayList;
 
 public class ContainerRemove implements CommandExecutor, Listener {
     private final PluginMain plugin;
+    private final CommandActionCache activeCmdCache;
 
-    public ContainerRemove(PluginMain plugin) {
+    public ContainerRemove(PluginMain plugin, CommandActionCache activeCmdCache) {
         this.plugin = plugin;
+        this.activeCmdCache = activeCmdCache;
     }
-
-    ArrayList<Player> activeCmd = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -34,13 +34,13 @@ public class ContainerRemove implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
 
-        if (activeCmd.contains(player)) {
-            activeCmd.remove(player);
+        if (this.activeCmdCache.contains(player, ContainerCacheCommand.REMOVE)) {
+            this.activeCmdCache.remove(player);
             player.sendMessage(ChatColor.DARK_AQUA + "Exited cremove mode!");
             return true;
         }
 
-        activeCmd.add(player);
+        this.activeCmdCache.add(player, ContainerCacheCommand.REMOVE);
         player.sendMessage(ChatColor.DARK_AQUA + "Please click your protection to remove it.\n To cancel, write "
                 + ChatColor.YELLOW + "/cremove");
         return true;
@@ -57,7 +57,7 @@ public class ContainerRemove implements CommandExecutor, Listener {
         if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof TileState)) return;
 
         // If not in edit mode, return
-        if (!activeCmd.contains(e.getPlayer())) return;
+        if (!this.activeCmdCache.contains(e.getPlayer(), ContainerCacheCommand.REMOVE)) return;
 
         // Get protection data for block
         var protection = new TileProtection(plugin, e.getClickedBlock().getState());
@@ -69,7 +69,7 @@ public class ContainerRemove implements CommandExecutor, Listener {
         e.setCancelled(true);
 
         // Remove the player from listening list
-        activeCmd.remove(e.getPlayer());
+        this.activeCmdCache.remove(e.getPlayer());
 
         // If block is not protected, tell the player
         if (protection.getProtectionLevel() == ProtectionType.NONE) {

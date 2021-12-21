@@ -18,16 +18,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class ContainerInfo implements CommandExecutor, Listener {
     private final PluginMain plugin;
+    private final CommandActionCache activeCmdCache;
 
-    public ContainerInfo(PluginMain plugin) {
+    public ContainerInfo(PluginMain plugin, CommandActionCache activeCmdCache) {
         this.plugin = plugin;
+        this.activeCmdCache = activeCmdCache;
     }
-
-    private final ArrayList<Player> activeCmd = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -35,13 +33,13 @@ public class ContainerInfo implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
 
-        if (activeCmd.contains(player)) {
-            activeCmd.remove(player);
+        if (this.activeCmdCache.contains(player, ContainerCacheCommand.INFO)) {
+            this.activeCmdCache.remove(player);
             player.sendMessage(ChatColor.DARK_AQUA + "Exited cinfo!");
             return true;
         }
 
-        activeCmd.add(player);
+        this.activeCmdCache.add(player, ContainerCacheCommand.INFO);
         player.sendMessage(ChatColor.DARK_AQUA + "Punch a protection to view information on it!");
 
         return true;
@@ -58,7 +56,7 @@ public class ContainerInfo implements CommandExecutor, Listener {
             return;
         }
 
-        if (!activeCmd.contains(event.getPlayer())) return;
+        if (!this.activeCmdCache.contains(event.getPlayer(), ContainerCacheCommand.INFO)) return;
 
 
         var protection = new TileProtection(plugin, event.getClickedBlock().getState());
@@ -68,7 +66,7 @@ public class ContainerInfo implements CommandExecutor, Listener {
 
         // If block is not registered as a private container, return
         if (protection.getProtectionLevel() == ProtectionType.NONE) {
-            activeCmd.remove(event.getPlayer());
+            this.activeCmdCache.remove(event.getPlayer());
             event.getPlayer().sendMessage(ChatColor.DARK_RED + "This " +
                     protection.getDisplayName() +
                     " is not protected!");
@@ -91,14 +89,15 @@ public class ContainerInfo implements CommandExecutor, Listener {
         }
 
         // Remove player from /cinfo command mode
-        activeCmd.remove(event.getPlayer());
+        this.activeCmdCache.remove(event.getPlayer());
 
         event.getPlayer().sendMessage(message.toString());
         event.setCancelled(true);
     }
 
+    // TODO: No need to remove in all command listeners. Maybe move playerDisconnect listener to CommandActionCache?
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent e) {
-        activeCmd.remove(e.getPlayer());
+        this.activeCmdCache.remove(e.getPlayer());
     }
 }

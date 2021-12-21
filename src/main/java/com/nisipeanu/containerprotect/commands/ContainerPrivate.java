@@ -20,12 +20,12 @@ import java.util.ArrayList;
 public class ContainerPrivate implements CommandExecutor, Listener {
 
     private final PluginMain plugin;
+    private final CommandActionCache activeCmdCache;
 
-    public ContainerPrivate(PluginMain plugin) {
+    public ContainerPrivate(PluginMain plugin, CommandActionCache activeCmdCache) {
         this.plugin = plugin;
+        this.activeCmdCache = activeCmdCache;
     }
-
-    private ArrayList<Player> activeCmd = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -33,13 +33,13 @@ public class ContainerPrivate implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
 
-        if (activeCmd.contains(player)) {
-            activeCmd.remove(player);
+        if (this.activeCmdCache.contains(player, ContainerCacheCommand.PRIVATE)) {
+            this.activeCmdCache.remove(player);
             player.sendMessage("Exited cprivate mode!");
             return true;
         }
 
-        activeCmd.add(player);
+        this.activeCmdCache.add(player, ContainerCacheCommand.PRIVATE);
         player.sendMessage("Click on a container to register it on your name!");
 
         return true;
@@ -53,7 +53,7 @@ public class ContainerPrivate implements CommandExecutor, Listener {
         if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof TileState)) return;
 
         // If not in private mode, return
-        if (!activeCmd.contains(e.getPlayer())) return;
+        if (!this.activeCmdCache.contains(e.getPlayer(), ContainerCacheCommand.PRIVATE)) return;
 
         // Get protection data for block
         var protection = new TileProtection(plugin, e.getClickedBlock().getState());
@@ -63,7 +63,7 @@ public class ContainerPrivate implements CommandExecutor, Listener {
 
         // Cancel the event
         e.setCancelled(true);
-        activeCmd.remove(e.getPlayer());
+        this.activeCmdCache.remove(e.getPlayer());
 
         // If block is already protected, tell the player
         if (protection.getProtectionLevel() != ProtectionType.NONE) {

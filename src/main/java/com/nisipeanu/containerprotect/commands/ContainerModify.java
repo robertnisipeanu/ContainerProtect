@@ -25,12 +25,12 @@ import java.util.Locale;
 public class ContainerModify implements CommandExecutor, Listener {
 
     private final PluginMain plugin;
+    private final CommandActionCache activeCmdCache;
 
-    public ContainerModify(PluginMain plugin) {
+    public ContainerModify(PluginMain plugin, CommandActionCache activeCmdCache) {
         this.plugin = plugin;
+        this.activeCmdCache = activeCmdCache;
     }
-
-    private HashMap<Player, String> activeCmd = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -38,15 +38,15 @@ public class ContainerModify implements CommandExecutor, Listener {
 
         Player player = (Player) sender;
 
-        if (activeCmd.containsKey(player)) {
-            activeCmd.remove(player);
+        if (this.activeCmdCache.contains(player, ContainerCacheCommand.MODIFY)) {
+            this.activeCmdCache.remove(player);
             player.sendMessage(ChatColor.DARK_AQUA + "Exited cmodify mode!");
             return true;
         }
 
         if (args.length != 1) return false;
 
-        activeCmd.put(player, args[0].toLowerCase(Locale.ROOT));
+        this.activeCmdCache.add(player, ContainerCacheCommand.MODIFY, args[0].toLowerCase(Locale.ROOT));
         player.sendMessage(ChatColor.DARK_AQUA + "Please click your protection to give access to "
                 + ChatColor.YELLOW + args[0]
                 + "\n" + ChatColor.DARK_AQUA + "To cancel, write " + ChatColor.YELLOW + "/cmodify");
@@ -65,7 +65,7 @@ public class ContainerModify implements CommandExecutor, Listener {
         if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof TileState)) return;
 
         // If not in edit mode, return
-        if (!activeCmd.containsKey(e.getPlayer())) return;
+        if (!this.activeCmdCache.contains(e.getPlayer(), ContainerCacheCommand.MODIFY)) return;
 
         // Get protection data for block
         var protection = new TileProtection(plugin, e.getClickedBlock().getState());
@@ -76,8 +76,8 @@ public class ContainerModify implements CommandExecutor, Listener {
         // Cancel the event
         e.setCancelled(true);
 
-        var targetName = activeCmd.get(e.getPlayer());
-        activeCmd.remove(e.getPlayer());
+        var targetName = (String) this.activeCmdCache.get(e.getPlayer(), ContainerCacheCommand.MODIFY);
+        this.activeCmdCache.remove(e.getPlayer());
 
         // If block is not protected, tell the player
         if (protection.getProtectionLevel() != ProtectionType.PRIVATE) {
