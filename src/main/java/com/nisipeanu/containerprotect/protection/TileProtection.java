@@ -27,10 +27,14 @@ public class TileProtection extends Protection {
     public boolean canBeProtected() {
         if (this.tileState == null) return false;
 
-        var tileClass = TileReflection.getClassFromTileState(this.tileState);
-        if (tileClass == null) return false;
+        var tileClasses = TileReflection.getClassesFromTileState(this.tileState);
+        if (tileClasses == null) return false;
 
-        return plugin.getConfig().getBoolean("blocks." + tileClass.getSimpleName().toLowerCase(Locale.ROOT));
+        for(var tileClass : tileClasses) {
+            if (plugin.getConfig().getBoolean("blocks." + tileClass.getSimpleName().toLowerCase(Locale.ROOT))) return true;
+        }
+
+        return false;
     }
 
     @Override

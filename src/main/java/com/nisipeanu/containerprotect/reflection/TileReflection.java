@@ -2,6 +2,7 @@ package com.nisipeanu.containerprotect.reflection;
 
 import org.bukkit.block.TileState;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class TileReflection {
         return getTileClasses().stream().filter(c -> c.getSimpleName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
-    public static Class<? extends TileState> getClassFromTileState(TileState tileState) {
-        return getTileClasses().stream().filter(c -> c.isAssignableFrom(tileState.getClass())).findFirst().orElse(null);
+    public static List<Class<? extends TileState>> getClassesFromTileState(TileState tileState) {
+        return getTileClasses().stream().filter(c -> c.isAssignableFrom(tileState.getClass())).toList();
     }
 }
