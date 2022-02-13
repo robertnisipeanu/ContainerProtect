@@ -28,4 +28,4 @@ jobs:
     - name: Attach files to release
       run: gh release upload ${{ github.event.release.tag_name }} target/ContainerProtect-1.1.0-SNAPSHOT.jar
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
