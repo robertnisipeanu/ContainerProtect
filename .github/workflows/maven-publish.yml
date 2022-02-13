@@ -26,7 +26,7 @@ jobs:
     - name: Update version in plugin.yml
       uses: fjogeleit/yaml-update-action@master
       with:
-        valueFile: 'src/resources/plugin.yml'
+        valueFile: 'src/main/resources/plugin.yml'
         propertyPath: 'version'
         value: ${{ github.event.release.tag_name }}
         commitChange: false
@@ -34,7 +34,7 @@ jobs:
     - name: Update version in pom.xml
       uses: Mudlet/xmlstarlet-action@master
       with:
-        args: edit --update "/project/version/@value" --value "${{ github.event.release.tag_name }}"
+        args: edit --update "/project/version/@value" --value "${{ github.event.release.tag_name }}" pom.xml
     - name: Build with Maven
       run: mvn package -f pom.xml
     - name: Attach files to release
