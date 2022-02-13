@@ -25,5 +25,7 @@ jobs:
     - name: Build with Maven
       run: mvn package -f pom.xml
     - name: Attach files to release
-      run: |
-          gh release upload ${{ github.event.release.upload_url }} target/ContainerProtect-*.jar
+      run: gh release upload $UPLOAD_URL target/ContainerProtect-*.jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        UPLOAD_URL: ${{ github.event.release.upload_url }}
