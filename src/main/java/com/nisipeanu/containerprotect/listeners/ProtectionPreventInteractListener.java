@@ -3,6 +3,7 @@ package com.nisipeanu.containerprotect.listeners;
 import com.nisipeanu.containerprotect.protection.TileProtection;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -69,12 +70,18 @@ public class ProtectionPreventInteractListener implements Listener {
             sourceProtection = new TileProtection(plugin, (BlockState) e.getSource().getHolder());
         } else if (e.getSource().getHolder() instanceof Entity) {
             sourceProtection = new EntityProtection(plugin, (Entity) e.getSource().getHolder());
+        } else if (e.getSource().getHolder() instanceof DoubleChest) {
+            var chest = ((DoubleChest) e.getSource().getHolder()).getRightSide();
+            sourceProtection = new TileProtection(plugin, (BlockState) chest);
         }
 
         if (e.getDestination().getHolder() instanceof BlockState) {
             destinationProtection = new TileProtection(plugin, (BlockState) e.getDestination().getHolder());
         } else if (e.getDestination().getHolder() instanceof Entity) {
             destinationProtection = new EntityProtection(plugin, (Entity) e.getDestination().getHolder());
+        } else if (e.getDestination().getHolder() instanceof DoubleChest) {
+            var chest = ((DoubleChest) e.getDestination().getHolder()).getRightSide();
+            destinationProtection = new TileProtection(plugin, (BlockState) chest);
         }
 
         // If neither of them can be protected, ignore
