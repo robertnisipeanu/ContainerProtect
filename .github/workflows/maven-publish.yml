@@ -34,7 +34,7 @@ jobs:
     - name: Update version in pom.xml
       uses: Mudlet/xmlstarlet-action@master
       with:
-        args: edit --update "/project/version/@value" --value "${{ github.event.release.tag_name }}" pom.xml
+        args: edit --inplace -N p=http://maven.apache.org/POM/4.0.0 -u "/p:project/p:version" -v "${{ github.event.release.tag_name }}" pom.xml
     - name: Build with Maven
       run: mvn package -f pom.xml
     - name: Attach files to release
