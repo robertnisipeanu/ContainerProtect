@@ -16,9 +16,11 @@ public class TileReflection {
     public static Set<Class<? extends TileState>> getTileClasses() {
         if (tileClasses != null) return tileClasses;
 
-        var blockClasses = ClassReflection.filterSuperClasses(
-                ClassReflection.getClassesInPackage("org.bukkit.block")
-        ).stream().filter(c -> TileState.class.isAssignableFrom(c));
+//        var blockClasses = ClassReflection.filterSuperClasses(
+//                ClassReflection.getClassesInPackage("org.bukkit.block")
+//        ).stream().filter(c -> TileState.class.isAssignableFrom(c));
+        var blockClasses = ClassReflection.getClassesInPackage("org.bukkit.block")
+                .stream().filter(TileState.class::isAssignableFrom);
 
         tileClasses = blockClasses.map(c -> (Class<? extends TileState>) c).collect(Collectors.toSet());
         return tileClasses;
