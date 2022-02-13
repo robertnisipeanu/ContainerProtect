@@ -12,7 +12,6 @@ jobs:
 
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       packages: write
 
     steps:
@@ -27,6 +26,6 @@ jobs:
     - name: Build with Maven
       run: mvn package -f pom.xml
     - name: Attach files to release
-      run: gh release upload ${{ github.event.release.tag_name }} target/ContainerProtect-*.jar
+      run: gh release upload ${{ github.event.release.tag_name }} target/ContainerProtect-1.1.0-SNAPSHOT.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
