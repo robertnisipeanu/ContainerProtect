@@ -27,6 +27,6 @@ jobs:
     - name: Attach files to release
       uses: JasonEtco/upload-to-release@master
       with:
-        args: target/ContainerProtect-1.1.0-SNAPSHOT-jar-with-dependencies.jar application/java-archive
+        args: target/ContainerProtect-1.1.0-SNAPSHOT-jar-with-dependencies.jar application/zip
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
