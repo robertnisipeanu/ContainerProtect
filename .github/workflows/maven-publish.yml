@@ -23,9 +23,21 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+    - name: Update version in plugin.yml
+      uses: fjogeleit/yaml-update-action@master
+      with:
+        valueFile: 'src/resources/plugin.yml'
+        propertyPath: 'version'
+        value: ${{ github.event.release.tag_name }}
+        commitChange: false
+        updateFile: true
+    - name: Update version in pom.xml
+      uses: Mudlet/xmlstarlet-action@master
+      with:
+        args: edit --update "/project/version/@value" --value "${{ github.event.release.tag_name }}"
     - name: Build with Maven
       run: mvn package -f pom.xml
     - name: Attach files to release
-      run: gh release upload ${{ github.event.release.tag_name }} target/ContainerProtect-1.1.0-SNAPSHOT.jar
+      run: gh release upload ${{ github.event.release.tag_name }} target/ContainerProtect-*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
