@@ -25,7 +25,11 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
     public byte @NotNull [] toPrimitive(@NotNull ContainerProtectData chestProtectData,
                                         @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         // (AllowedList + Owner) * 2 * sizeof(long) + (2 * sizeof(int))
-        ByteBuffer bb = ByteBuffer.allocate((chestProtectData.allowedList.size() + 1) * 16 + (2 * 4));
+        ByteBuffer bb = ByteBuffer.allocate(
+                (chestProtectData.allowedList.size() + 1) * 16 + (2 * 4) // Owner + allowed list
+                + (chestProtectData.additionalAllowed.size() + 1) * 4 // Lengths for each additionalAllowed
+                + chestProtectData.additionalAllowed.stream().mapToInt(a -> a.length).sum()
+        );
         bb.putInt(chestProtectData.protectionType.ordinal());
 
         bb.putLong(chestProtectData.owner.getUniqueId().getMostSignificantBits());
