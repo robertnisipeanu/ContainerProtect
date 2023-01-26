@@ -38,6 +38,6 @@ public class TileReflection {
     }
 
     public static List<Class<? extends TileState>> getClassesFromTileState(TileState tileState) {
-        return getTileClasses().stream().filter(c -> c.isAssignableFrom(tileState.getClass())).toList();
+        return getTileClasses().stream().filter(c -> c.isAssignableFrom(tileState.getClass())).collect(Collectors.toList());
     }
 }
