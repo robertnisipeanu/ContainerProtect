@@ -1,6 +1,7 @@
 package com.nisipeanu.containerprotect.sdk;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.bukkit.Bukkit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
@@ -47,12 +48,13 @@ public class AllowedInfo {
 
         // calculate offset (identifier end)
         int identifierLength = buffer.getInt();
-        int offset = 4 + identifierLength;
+        byte[] identifier = new byte[identifierLength];
+        buffer.get(identifier);
 
         // get value
-        int valueLength = buffer.getInt(offset);
+        int valueLength = buffer.getInt();
         byte[] containedValue = new byte[valueLength];
-        buffer.get(containedValue, offset + 4, valueLength);
+        buffer.get(containedValue);
 
         handler.deserialize(containedValue);
 
