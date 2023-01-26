@@ -95,8 +95,8 @@ public class ContainerInfo implements CommandExecutor, Listener {
             try {
                 var implementation = (new ContainerAllowedManagerImplementation()).getImplementationByValue(allowed);
                 if (implementation != null) {
-                    var clanName = implementation.deserialize(allowed).getDisplayName();
-                    message.append(ChatColor.WHITE).append("- Clan: ").append(ChatColor.YELLOW).append(clanName).append("\n");
+                    var displayName = implementation.deserialize(allowed).getDisplayName();
+                    message.append(ChatColor.WHITE).append("- ").append(ChatColor.YELLOW).append(displayName).append("\n");
                 }
             } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
