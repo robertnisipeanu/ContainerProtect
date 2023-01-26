@@ -3,6 +3,7 @@ package com.nisipeanu.containerprotect.commands;
 import com.nisipeanu.containerprotect.PluginMain;
 import com.nisipeanu.containerprotect.data.ProtectionType;
 import com.nisipeanu.containerprotect.protection.TileProtection;
+import com.nisipeanu.containerprotect.sdk.ContainerAllowedManagerImplementation;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Container;
 import org.bukkit.block.TileState;
@@ -17,6 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class ContainerInfo implements CommandExecutor, Listener {
     private final PluginMain plugin;
@@ -86,6 +89,18 @@ public class ContainerInfo implements CommandExecutor, Listener {
         for (var allowed : protection.getAllowedList()) {
             message.append(ChatColor.WHITE).append("- ").append(ChatColor.YELLOW).append(allowed.getName())
                     .append(" (").append(allowed.getUniqueId().toString()).append(")").append("\n");
+        }
+
+        for (var allowed : protection.getAdditionalAllowedList()) {
+            try {
+                var implementation = (new ContainerAllowedManagerImplementation()).getImplementationByValue(allowed);
+                if (implementation != null) {
+                    var displayName = implementation.deserialize(allowed).getDisplayName();
+                    message.append(ChatColor.WHITE).append("- ").append(ChatColor.YELLOW).append(displayName).append("\n");
+                }
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
 
         // Remove player from /cinfo command mode

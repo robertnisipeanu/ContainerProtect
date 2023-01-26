@@ -27,10 +27,18 @@ public class ContainerProtectData {
         this.protectionType = type;
     }
 
+    public ContainerProtectData(UUID owner, ArrayList<UUID> allowedList, ProtectionType type, ArrayList<byte[]> additionalAllowed) {
+        this(owner, allowedList, type);
+
+        this.additionalAllowed = additionalAllowed;
+    }
+
     public OfflinePlayer owner = null;
 
     public ArrayList<OfflinePlayer> allowedList = new ArrayList<>();
 
     public ProtectionType protectionType = ProtectionType.NONE;
+
+    public ArrayList<byte[]> additionalAllowed = new ArrayList<>();
 
 }

@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class ContainerPrivate implements CommandExecutor, Listener {
         // Set the player as owner of protection, remove any previous stored allowedlist
         protection.setOwner(e.getPlayer());
         protection.setAllowedList(new ArrayList<>());
+        protection.setAdditionalAllowedList(new ArrayList<>());
         protection.setProtectionLevel(ProtectionType.PRIVATE);
 
         // Save changes to protection

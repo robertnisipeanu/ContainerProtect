@@ -4,7 +4,9 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -23,7 +25,11 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
     public byte @NotNull [] toPrimitive(@NotNull ContainerProtectData chestProtectData,
                                         @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         // (AllowedList + Owner) * 2 * sizeof(long) + (2 * sizeof(int))
-        ByteBuffer bb = ByteBuffer.allocate((chestProtectData.allowedList.size() + 1) * 16 + (2 * 4));
+        ByteBuffer bb = ByteBuffer.allocate(
+                (chestProtectData.allowedList.size() + 1) * 16 + (2 * 4) // Owner + allowed list
+                + (chestProtectData.additionalAllowed.size() + 1) * 4 // Lengths for each additionalAllowed
+                + chestProtectData.additionalAllowed.stream().mapToInt(a -> a.length).sum()
+        );
         bb.putInt(chestProtectData.protectionType.ordinal());
 
         bb.putLong(chestProtectData.owner.getUniqueId().getMostSignificantBits());
@@ -38,6 +44,13 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
             bb.putLong(allowed.getUniqueId().getLeastSignificantBits());
         }
 
+        bb.putInt(chestProtectData.additionalAllowed.size());
+
+        for (var allowed : chestProtectData.additionalAllowed) {
+            bb.putInt(allowed.length);
+            bb.put(allowed);
+        }
+
         return bb.array();
     }
 
@@ -48,6 +61,7 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
 
         UUID owner;
         ArrayList<UUID> allowedList = new ArrayList<>();
+        ArrayList<byte[]> additionalAllowedList = new ArrayList<>();
 
         int protectionType = bb.getInt();
 
@@ -57,7 +71,7 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
 
         int allowedListSize = bb.getInt();
 
-        while (bb.remaining() > 0) {
+        for (int i = 0; i < allowedListSize; i++) {
             if (bb.remaining() < 16) break;
 
             mostBits = bb.getLong();
@@ -65,7 +79,26 @@ public class ContainerProtectDataType implements PersistentDataType<byte[], Cont
             allowedList.add(new UUID(mostBits, leastBits));
         }
 
-        return new ContainerProtectData(owner, allowedList, ProtectionType.values()[protectionType]);
+        int additionalAllowedSize = 0;
+
+        try {
+            additionalAllowedSize = bb.getInt();
+        } catch (BufferUnderflowException ignored) {
+            // Protection created before adding additionalAllowed param
+        }
+
+        for (int i = 0; i < additionalAllowedSize; i++) {
+            if (bb.remaining() < 4) break;
+            int length = bb.getInt();
+
+            if (bb.remaining() < length) break;
+            byte[] value = new byte[length];
+            bb.get(value);
+
+            additionalAllowedList.add(value);
+        }
+
+        return new ContainerProtectData(owner, allowedList, ProtectionType.values()[protectionType], additionalAllowedList);
     }
 
 }

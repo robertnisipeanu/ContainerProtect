@@ -2,12 +2,21 @@ package com.nisipeanu.containerprotect;
 
 import com.nisipeanu.containerprotect.commands.*;
 import com.nisipeanu.containerprotect.listeners.ProtectionPreventInteractListener;
+import com.nisipeanu.containerprotect.sdk.ContainerAllowedManager;
+import com.nisipeanu.containerprotect.sdk.ContainerAllowedManagerImplementation;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.nisipeanu.containerprotect.config.ConfigGenerator;
 import com.nisipeanu.containerprotect.listeners.ProtectionAddListener;
 import com.nisipeanu.containerprotect.listeners.ProtectionPreventDestroyListener;
 
 public class PluginMain extends JavaPlugin {
+
+    @Override
+    public void onLoad() {
+        Bukkit.getServicesManager().register(ContainerAllowedManager.class, new ContainerAllowedManagerImplementation(), this, ServicePriority.Normal);
+    }
 
     @Override
     public void onEnable() {

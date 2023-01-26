@@ -44,7 +44,7 @@ public class ProtectionPreventInteractListener implements Listener {
 
         // If it's not owner/allowed or has admin permission, cancel the event
         if (!e.getPlayer().equals(protection.getOwner())
-                && !protection.getAllowedList().contains(e.getPlayer())) {
+                && !protection.isAllowed(e.getPlayer())) {
 
             // If player has admin permission, tell him who is the owner of the container
             if (e.getPlayer().hasPermission("containerprotect.admin.interact")) {
