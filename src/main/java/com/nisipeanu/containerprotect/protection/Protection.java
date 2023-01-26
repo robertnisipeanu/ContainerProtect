@@ -2,6 +2,7 @@ package com.nisipeanu.containerprotect.protection;
 
 import com.nisipeanu.containerprotect.PluginMain;
 import com.nisipeanu.containerprotect.data.ProtectionType;
+import com.nisipeanu.containerprotect.sdk.ContainerAllowedManagerImplementation;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import com.nisipeanu.containerprotect.data.ContainerProtectData;
 import com.nisipeanu.containerprotect.data.ContainerProtectDataType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public abstract class Protection {
@@ -108,6 +110,38 @@ public abstract class Protection {
      */
     public void addAllowedList(@NotNull OfflinePlayer player) {
         this.getData().allowedList.add(player);
+    }
+
+    public @NotNull ArrayList<byte[]> getAdditionalAllowedList() {
+        return new ArrayList<>(this.getData().additionalAllowed);
+    }
+
+    public void setAdditionalAllowedList(@NotNull ArrayList<byte[]> allowed) {
+        this.getData().additionalAllowed = new ArrayList<>(allowed);
+    }
+
+    public void addAdditionalAllowed(@NotNull byte[] additional) {
+        this.getData().additionalAllowed.add(additional);
+    }
+
+    public boolean isAllowed(OfflinePlayer player) {
+
+        if (this.getAllowedList().contains(player)) {
+            return true;
+        }
+
+        for (var allowed : this.getAdditionalAllowedList()) {
+            try {
+                var implementation = (new ContainerAllowedManagerImplementation()).getImplementationByValue(allowed);
+                if (implementation != null && implementation.deserialize(allowed).isAllowed(player)) {
+                    return true;
+                }
+            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
 
     /**

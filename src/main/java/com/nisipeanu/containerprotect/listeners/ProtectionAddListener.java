@@ -57,6 +57,7 @@ public class ProtectionAddListener implements Listener {
         if (neighborProtection != null && neighborProtection.getOwner() != null) {
             protection.setOwner(neighborProtection.getOwner());
             protection.setAllowedList(neighborProtection.getAllowedList());
+            protection.setAdditionalAllowedList(neighborProtection.getAdditionalAllowedList());
             protection.setProtectionLevel(neighborProtection.getProtectionLevel());
         } else {
             protection.setOwner(e.getPlayer());

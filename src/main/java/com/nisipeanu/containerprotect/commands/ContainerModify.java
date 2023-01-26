@@ -3,6 +3,7 @@ package com.nisipeanu.containerprotect.commands;
 import com.nisipeanu.containerprotect.PluginMain;
 import com.nisipeanu.containerprotect.data.ProtectionType;
 import com.nisipeanu.containerprotect.protection.TileProtection;
+import com.nisipeanu.containerprotect.sdk.ContainerAllowedManagerImplementation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Container;
@@ -18,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
@@ -91,19 +93,40 @@ public class ContainerModify implements CommandExecutor, Listener {
             return;
         }
 
-        // Find target as OfflinePlayer
-        var target = Arrays.stream(Bukkit.getOfflinePlayers())
-                .filter(offlinePlayer -> offlinePlayer.getName() != null
-                        && offlinePlayer.getName().equalsIgnoreCase(targetName)).findFirst().orElse(null);
-        // If target not found, show user a message and return
-        if (target == null) {
-            e.getPlayer().sendMessage(ChatColor.DARK_RED + "Player " + ChatColor.YELLOW + targetName
-                    + ChatColor.DARK_RED + " not found");
-            return;
+        if (targetName.contains(":")) {
+            // Find target as third party implementation
+
+            var targetArgs = targetName.split(":", 2);
+            var implementation = (new ContainerAllowedManagerImplementation()).getImplementationByPrefix(targetArgs[0]);
+            if (implementation == null) {
+                e.getPlayer().sendMessage(ChatColor.YELLOW + targetArgs[0] + ChatColor.DARK_RED + " is not a valid option!");
+                return;
+            }
+
+            try {
+                protection.addAdditionalAllowed(implementation.serializeValue(targetArgs[1]));
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                e.getPlayer().sendMessage(ChatColor.DARK_RED + "There was an error while processing your request!");
+                ex.printStackTrace();
+                return;
+            }
+        } else {
+
+            // Find target as OfflinePlayer
+            var target = Arrays.stream(Bukkit.getOfflinePlayers())
+                    .filter(offlinePlayer -> offlinePlayer.getName() != null
+                            && offlinePlayer.getName().equalsIgnoreCase(targetName)).findFirst().orElse(null);
+            // If target not found, show user a message and return
+            if (target == null) {
+                e.getPlayer().sendMessage(ChatColor.DARK_RED + "Player " + ChatColor.YELLOW + targetName
+                        + ChatColor.DARK_RED + " not found");
+                return;
+            }
+
+            // Update the protection
+            protection.addAllowedList(target);
         }
 
-        // Update the protection
-        protection.addAllowedList(target);
         protection.save();
 
         e.getPlayer().sendMessage(ChatColor.GREEN + "Registered rights for " + ChatColor.YELLOW + targetName);

@@ -58,6 +58,7 @@ public class TileProtection extends Protection {
         if (adjacentProtection != null) {
             adjacentProtection.setOwner(this.getOwner());
             adjacentProtection.setAllowedList(this.getAllowedList());
+            adjacentProtection.setAdditionalAllowedList(this.getAdditionalAllowedList());
             adjacentProtection.setProtectionLevel(this.getProtectionLevel());
             adjacentProtection.save(false);
         }
